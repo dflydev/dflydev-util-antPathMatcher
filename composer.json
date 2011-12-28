@@ -1,0 +1,26 @@
+{
+    "name": "dflydev/dflydev-util-antPathMatcher",
+    "type": "library",
+    "description": "Ant Path Matcher Utility",
+    "homepage": "http://github.com/dflydev/dflydev-util-antPathMatcher",
+    "keywords": ["ant", "pattern", "path", "matcher"],
+    "license": "New BSD License",
+    "authors": [
+        {
+            "name": "Dragonfly Development Inc.",
+            "email": "info@dflydev.com",
+            "homepage": "http://dflydev.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com",
+            "homepage": "http://beausimensen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-0": { "dflydev\\util\\antPathMatcher": "src" }
+    }
+}
