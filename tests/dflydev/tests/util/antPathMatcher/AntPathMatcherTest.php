@@ -90,6 +90,11 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
                 'com/**/a/**/b/**/foo/*.jsp',
                 array('com/AAA/a/BBB/b/FOO/foo/bar.jsp','com/A/AA/a/B/BB/b/F/OO/foo/bar.jsp',),
                 array(),
+            ),
+            array(
+                'com/foo/',
+                array('com/foo/bar.jsp','com/foo/bar/baz.jsp',),
+                array('com.txt', 'com/foo.txt'),
             )
         );
     }
@@ -100,6 +105,19 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($antPathMatcher->matchStart('foo/**', 'foo/bar/baz'));
         $this->assertTrue($antPathMatcher->matchStart('foo/**/baz', 'foo/bar/baz'));
         $this->assertTrue($antPathMatcher->matchStart('foo/**/baz', 'foo/bar/BAT'));
+    }
+    
+    public function testIsPattern()
+    {
+        $antPathMatcher = new AntPathMatcher();
+        $this->assertTrue($antPathMatcher->isPattern('foo/'));
+        $this->assertTrue($antPathMatcher->isPattern('foo/**'));
+        $this->assertTrue($antPathMatcher->isPattern('foo/t?st.html'));
+        $this->assertTrue($antPathMatcher->isPattern('foo/t*st.html'));
+        $this->assertTrue($antPathMatcher->isPattern('t?st.html'));
+        $this->assertTrue($antPathMatcher->isPattern('t*st.html'));
+        $this->assertFalse($antPathMatcher->isPattern('foo'));
+        $this->assertFalse($antPathMatcher->isPattern('foo/bar'));
     }
 
 }

@@ -26,7 +26,9 @@ interface IAntPathMatcher {
 
     /**
      * Does the given <code>path</code> represent a pattern that can be matched
-     * by an implementation of this interface?
+     * by an implementation of this interface? If this method returns
+     * <code>false</code> then the <code>match*</code> methods do not need to be
+     * called since direct string comparisons will lead to the same results.
      * 
      * @return boolean
      */

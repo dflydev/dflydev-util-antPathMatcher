@@ -25,7 +25,7 @@ class AntPathMatcher implements IAntPathMatcher {
      */
     public function isPattern($path)
     {
-        //
+        return strstr($path, '*') !== false or strstr($path, '?') !== false or DIRECTORY_SEPARATOR == substr($path, '-1');
     }
 
     /**
@@ -59,6 +59,9 @@ class AntPathMatcher implements IAntPathMatcher {
         if (($pattern[0] == DIRECTORY_SEPARATOR) != ($path[0] == DIRECTORY_SEPARATOR)) {
             return false;
         }
+        if (DIRECTORY_SEPARATOR == substr($pattern, '-1')) {
+            $pattern .= '**';
+        }
 
         $pattDirs = $this->tokenizeToStringArray($pattern);
         $pathDirs = $this->tokenizeToStringArray($path);
@@ -90,15 +93,15 @@ class AntPathMatcher implements IAntPathMatcher {
             if (!$fullMatch) {
                 return true;
             }
-			if ($pattIdxStart == $pattIdxEnd and '*' == $pattDirs[$pattIdxStart] and DIRECTORY_SEPARATOR == substr($path, -1)) {
-				return true;
-			}
-			for ($i = $pattIdxStart; $i <= $pattIdxEnd; $i++) {
-			    if (!'**' == $pattDirs[$i]) {
-			        return false;
-			    }
-			}
-			return true;
+            if ($pattIdxStart == $pattIdxEnd and '*' == $pattDirs[$pattIdxStart] and DIRECTORY_SEPARATOR == substr($path, -1)) {
+                return true;
+            }
+            for ($i = $pattIdxStart; $i <= $pattIdxEnd; $i++) {
+                if (!'**' == $pattDirs[$i]) {
+                    return false;
+                }
+            }
+            return false;
         }
         else if ($pattIdxStart > $pattIdxEnd) {
             // String not exhausted, but pattern is. Failure.
