@@ -1,5 +1,5 @@
 {
-    "name": "dflydev/dflydev-util-antPathMatcher",
+    "name": "dflydev/ant-path-matcher",
     "type": "library",
     "description": "Ant Path Matcher Utility",
     "homepage": "http://github.com/dflydev/dflydev-util-antPathMatcher",
