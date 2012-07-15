@@ -13,12 +13,12 @@ namespace dflydev\util\antPathMatcher;
 
 /**
  * Default implementation for Ant-style path patterns.
- * 
+ *
  * <p>This was very much inspired (read: "kindly borrowed") from <a href="http://www.springsource.org/">Spring</a>.
  *
  */
-class AntPathMatcher implements IAntPathMatcher {
-
+class AntPathMatcher implements IAntPathMatcher
+{
     /**
      * (non-PHPdoc)
      * @see dflydev\util\antPathMatcher.IAntPathMatcher::isPattern()
@@ -48,9 +48,9 @@ class AntPathMatcher implements IAntPathMatcher {
 
     /**
      * Actually match the given <code>path</code> against the given <code>pattern</code>.
-     * @param string $pattern
-     * @param string $path
-     * @param boolean $fullMatch
+     * @param  string  $pattern
+     * @param  string  $path
+     * @param  boolean $fullMatch
      * @return boolean
      */
     protected function doMatch($pattern, $path, $fullMatch)
@@ -70,7 +70,7 @@ class AntPathMatcher implements IAntPathMatcher {
         $pattIdxEnd = count($pattDirs) - 1;
         $pathIdxStart = 0;
         $pathIdxEnd = count($pathDirs) - 1;
-        
+
         // Match all elements up to the first **
         while ($pattIdxStart <= $pattIdxEnd and $pathIdxStart <= $pathIdxEnd) {
             $patDir = $pattDirs[$pattIdxStart];
@@ -101,17 +101,16 @@ class AntPathMatcher implements IAntPathMatcher {
                     return false;
                 }
             }
+
             return false;
-        }
-        else if ($pattIdxStart > $pattIdxEnd) {
+        } elseif ($pattIdxStart > $pattIdxEnd) {
             // String not exhausted, but pattern is. Failure.
             return false;
-        }
-        else if (!$fullMatch and "**" == $pattDirs[$pattIdxStart]) {
+        } elseif (!$fullMatch and "**" == $pattDirs[$pattIdxStart]) {
             // Path start definitely matches due to "**" part in pattern.
             return true;
         }
-        
+
         // up to last '**'
         while ($pattIdxStart <= $pattIdxEnd and $pathIdxStart <= $pathIdxEnd) {
             $patDir = $pattDirs[$pattIdxEnd];
@@ -131,6 +130,7 @@ class AntPathMatcher implements IAntPathMatcher {
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -153,7 +153,7 @@ class AntPathMatcher implements IAntPathMatcher {
             $patLength = ($patIdxTmp - $pattIdxStart - 1);
             $strLength = ($pathIdxEnd - $pathIdxStart + 1);
             $foundIdx = -1;
-            
+
             for ($i = 0; $i <= $strLength - $patLength; $i++) {
                 for ($j = 0; $j < $patLength; $j++) {
                     $subPat = $pattDirs[$pattIdxStart + $j + 1];
@@ -165,16 +165,16 @@ class AntPathMatcher implements IAntPathMatcher {
                 $foundIdx = $pathIdxStart + $i;
                 break;
             }
-            
+
             if ($foundIdx == -1) {
                 return false;
             }
-            
+
             $pattIdxStart = $patIdxTmp;
             $pathIdxStart = $foundIdx + $patLength;
-            
+
         }
-        
+
         for ($i = $pattIdxStart; $i <= $pattIdxEnd; $i++) {
             if (!'**' == $pattDirs[$i]) {
                 return false;
@@ -182,14 +182,14 @@ class AntPathMatcher implements IAntPathMatcher {
         }
 
         return true;
-    
+
     }
-    
+
     protected function tokenizeToStringArray($str, $delimiter = DIRECTORY_SEPARATOR, $trimTokens = true, $ignoreEmptyTokens = true)
     {
         if ($str === null) { return null; }
         $tokens = array();
-        foreach (explode($delimiter, $str) as $token) {  
+        foreach (explode($delimiter, $str) as $token) {
             if ($trimTokens) {
                 $token = trim($token);
             }
@@ -197,12 +197,13 @@ class AntPathMatcher implements IAntPathMatcher {
                 $tokens[] = $token;
             }
         }
+
         return $tokens;
     }
-    
+
     private function matchStringsCallback($matches)
     {
-        switch($matches[0]) {
+        switch ($matches[0]) {
             case '?':
                 return '.';
                 break;
@@ -219,6 +220,7 @@ class AntPathMatcher implements IAntPathMatcher {
     protected function matchStrings($pattern, $str)
     {
         $re = preg_replace_callback('([\?\*\.\+])', array($this, 'matchStringsCallback'), $pattern);
+
         return preg_match('/'.$re.'/', $str);
     }
 

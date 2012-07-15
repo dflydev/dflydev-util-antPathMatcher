@@ -29,15 +29,15 @@ interface IAntPathMatcher {
      * by an implementation of this interface? If this method returns
      * <code>false</code> then the <code>match*</code> methods do not need to be
      * called since direct string comparisons will lead to the same results.
-     * 
+     *
      * @return boolean
      */
     public function isPattern($path);
 
     /**
      * Match the given <code>path</code> against the given <code>pattern</code>.
-     * @param string $pattern
-     * @param string $path
+     * @param  string  $pattern
+     * @param  string  $path
      * @return boolean
      */
     public function match($pattern, $path);
@@ -45,11 +45,11 @@ interface IAntPathMatcher {
     /**
      * Match the given <code>path</code> against the corresponding part of the
      * given <code>pattern</code>.
-     * 
+     *
      * Determines whether the pattern at least matches as far as the given base
      * path goes, assuming that a full path may then match as well.
-     * @param string $pattern
-     * @param string $path
+     * @param  string  $pattern
+     * @param  string  $path
      * @return boolean
      */
     public function matchStart($pattern, $path);
