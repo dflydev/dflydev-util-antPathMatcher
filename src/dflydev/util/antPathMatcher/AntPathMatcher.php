@@ -25,7 +25,7 @@ class AntPathMatcher implements IAntPathMatcher
      */
     public function isPattern($path)
     {
-        return strstr($path, '*') !== false or strstr($path, '?') !== false or DIRECTORY_SEPARATOR == substr($path, '-1');
+        return strstr($path, '*') !== false or strstr($path, '?') !== false or '/' == substr($path, '-1');
     }
 
     /**
@@ -56,10 +56,10 @@ class AntPathMatcher implements IAntPathMatcher
     protected function doMatch($pattern, $path, $fullMatch)
     {
 
-        if (($pattern[0] == DIRECTORY_SEPARATOR) != ($path[0] == DIRECTORY_SEPARATOR)) {
+        if (($pattern[0] == '/') != ($path[0] == '/')) {
             return false;
         }
-        if (DIRECTORY_SEPARATOR == substr($pattern, '-1')) {
+        if ('/' == substr($pattern, '-1')) {
             $pattern .= '**';
         }
 
@@ -87,13 +87,13 @@ class AntPathMatcher implements IAntPathMatcher
         if ($pathIdxStart > $pathIdxEnd) {
             // Path is exhausted, only match if rest of pattern is * or **'s
             if ($pattIdxStart > $pattIdxEnd) {
-                return (DIRECTORY_SEPARATOR == substr($pattern, '-1') ? DIRECTORY_SEPARATOR == substr($path, '-1') :
-                        !(DIRECTORY_SEPARATOR == substr($path, '-1')));
+                return ('/' == substr($pattern, '-1') ? '/' == substr($path, '-1') :
+                        !('/' == substr($path, '-1')));
             }
             if (!$fullMatch) {
                 return true;
             }
-            if ($pattIdxStart == $pattIdxEnd and '*' == $pattDirs[$pattIdxStart] and DIRECTORY_SEPARATOR == substr($path, -1)) {
+            if ($pattIdxStart == $pattIdxEnd and '*' == $pattDirs[$pattIdxStart] and '/' == substr($path, -1)) {
                 return true;
             }
             for ($i = $pattIdxStart; $i <= $pattIdxEnd; $i++) {
@@ -185,7 +185,7 @@ class AntPathMatcher implements IAntPathMatcher
 
     }
 
-    protected function tokenizeToStringArray($str, $delimiter = DIRECTORY_SEPARATOR, $trimTokens = true, $ignoreEmptyTokens = true)
+    protected function tokenizeToStringArray($str, $delimiter = '/', $trimTokens = true, $ignoreEmptyTokens = true)
     {
         if ($str === null) { return null; }
         $tokens = array();
