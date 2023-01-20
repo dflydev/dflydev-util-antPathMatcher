@@ -30,7 +30,7 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMatchesProvider
+     * @dataProvider provideMatches
      */
     public function testMatches($pattern, $shouldMatch, $shouldNotMatch)
     {
@@ -48,7 +48,7 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
         return 'Testing path "' . $path . '" against pattern "' . $pattern . '"';
     }
 
-    public function testMatchesProvider()
+    public function provideMatches()
     {
         return array(
             array(
