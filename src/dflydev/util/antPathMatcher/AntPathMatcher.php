@@ -221,7 +221,7 @@ class AntPathMatcher implements IAntPathMatcher
     {
         $re = preg_replace_callback('([\?\*\.\+])', array($this, 'matchStringsCallback'), $pattern);
 
-        return preg_match('/'.$re.'/', $str);
+        return preg_match('/^'.$re.'$/', $str);
     }
 
 }

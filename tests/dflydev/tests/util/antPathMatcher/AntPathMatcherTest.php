@@ -30,7 +30,7 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMatchesProvider
+     * @dataProvider provideMatches
      */
     public function testMatches($pattern, $shouldMatch, $shouldNotMatch)
     {
@@ -48,11 +48,16 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
         return 'Testing path "' . $path . '" against pattern "' . $pattern . '"';
     }
 
-    public function testMatchesProvider()
+    public function provideMatches()
     {
         return array(
             array(
                 'com/t?st',
+                array('com/test', 'com/tast', 'com/txst'),
+                array('com/test.jsp', 'com/tast.jsp', 'com/txst.jsp'),
+            ),
+            array(
+                'com/t?st.jsp',
                 array('com/test.jsp', 'com/tast.jsp', 'com/txst.jsp'),
                 array('com/toast.jsp', 'com/README.md')
             ),
@@ -95,7 +100,12 @@ class AntPathMatcherTest extends \PHPUnit_Framework_TestCase
                 'com/foo/',
                 array('com/foo/bar.jsp','com/foo/bar/baz.jsp',),
                 array('com.txt', 'com/foo.txt'),
-            )
+            ),
+            array(
+                'com/**',
+                array('com/foo'),
+                array('com2/foo', '_com/foo'),
+            ),
         );
     }
     
